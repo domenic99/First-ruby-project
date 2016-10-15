@@ -42,10 +42,10 @@ post '/' do
 	#generates safe link
 
 	o = [('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
-	string = (0...50).map { o[rand(o.length)] }.join
+	@string = (0...50).map { o[rand(o.length)] }.join
 
 	_data['message'] = AESCrypt.encrypt(_data['message'], "p4ssw0rd")
-	_data['link'] = string
+	_data['link'] = @string
 
 	message = Messages.create(_data)
 
