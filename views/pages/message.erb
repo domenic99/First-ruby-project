@@ -5,7 +5,7 @@
 
 	<% elsif @result == "1"%>
 		<h3 class="col-xs-12"> Here is your decrypted message: <%= AESCrypt.decrypt(@message.message, "p4ssw0rd") %></h3>
-		<% Messages.delete(@message.id) %>
+		<% @message.delete %>
 	<% else %>
 		<h3 class="col-xs-12"> Here is your decrypted message: <%= AESCrypt.decrypt(@message.message, "p4ssw0rd") %></h3>
 	<% end %>
