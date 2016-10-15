@@ -64,7 +64,7 @@ get '/message/:link' do
 			erb :'pages/message'
 		else
 			@result = "0"
-			Messages.delete(@message.id)
+			@message.delete
 			erb :'pages/message'
 		end	
 	else
