@@ -14,7 +14,7 @@ ActiveRecord::Base.establish_connection({
 require './models/messages'
 
 Messages.find_each() do |message|
-	if Time.now.to_i - message.time.to_i >= 3600
+	if message.delete_type == 1 && Time.now.to_i - message.time.to_i >= 3600*message.count
     	message.delete
     end
-  end
+end
