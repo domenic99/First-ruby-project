@@ -6,14 +6,6 @@ Bundler.require()
 
 # ** CONNECTION **
 
-#ActiveRecord::Base.establish_connection({
-#	:adapter => 'postgresql',
-#	:username => 'postgres',
-#	:password => '2035211',
-#	:database => 'all_the_messages'
-#})
-
-
 ActiveRecord::Base.establish_connection({
 	:adapter => 'postgresql',
 	:host => "ec2-54-75-230-132.eu-west-1.compute.amazonaws.com",
@@ -57,18 +49,18 @@ get '/message/:link' do
 	@message = Messages.find_by_link("#{params[:link]}")
 
 	if @message != nil
-		if @message.delete_type == 0
-			@result = "1"
-			erb :'pages/message'
-		elsif Time.now.to_i - @message.time.to_i <= 3600
+		if @message.delete_type == 0 && @message.count != 0			
+			@message.update(:count => @message.count - 1)
+			erb :'pages/message'						
+		elsif Time.now.to_i - @message.time.to_i <= 3600*@message.count
 			erb :'pages/message'
 		else
-			@result = "0"
+			@result = false
 			@message.delete
 			erb :'pages/message'
 		end	
 	else
-		@result = "0"
+		@result = false
 		erb :'pages/message'
 	end
 end

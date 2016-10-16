@@ -6,10 +6,15 @@
 <div class="row text-xs-center">
 	<form action="/" method="post">
 	<div class="form-group">
-		<input type="radio" name="msg[delete_type]" value="0" required class="m-x-2">Delete after first visit
-		<input type="radio" name="msg[delete_type]" value="1" required class="m-x-2">Delete after 1 hour
+		<input type="radio" name="msg[delete_type]" value="0"  class="m-x-2" required>Delete after N visit
+		<input type="radio" name="msg[delete_type]" value="1"  class="m-x-2" required>Delete after N hour		
 	</div>
 	<div class="form-group">
+		<label for="_count" >Please initialize N:</label><br>
+		<input type="number" name="msg[count]" min="1" step="1" class="m-x-2" id="_count" required> 
+	</div>
+	<div class="form-group">
+		<label for="_count" >Please type your message:</label><br>
 		<input type="text" name="msg[message]" required>
 	</div>
 	<div class="form-group">
