@@ -1,83 +1,38 @@
 # ** Config **
 require 'bundler'
 require 'date'
+require 'securerandom'
 Bundler.require()
 
 
 # ** CONNECTION **
-
-ActiveRecord::Base.establish_connection({
-	:adapter => 'postgresql',
-	:host => "ec2-54-75-230-132.eu-west-1.compute.amazonaws.com",
-	:username => 'ssoixcbbzghphf',
-	:password => 'J_LgMv4oUc-bsCoZjGGReM20Rm',
-	:database => 'd80vn642746m7p'
-})
+require './models/connection'
 
 
 # ** MODELS **
-
+require './models/link_generator'
+require './models/data_collector'
 require './models/messages'
-
+require './models/check_record'
 
 # ** ROUTES **
 
 # - FORM FOR CREATION -
 get '/' do
-	erb :'pages/index'
+  erb :'pages/index'
 end
 
 # - ADD TO DB -
 post '/' do
-	_data = params[:msg]
-	
-	#generates safe link
+  @collection = CollectToDB.new(params[:msg]).data
+  Messages.create(@collection)
 
-	o = [('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
-	@string = (0...50).map { o[rand(o.length)] }.join
-
-	_data['message'] = AESCrypt.encrypt(_data['message'], "p4ssw0rd")
-	_data['link'] = @string
-
-	message = Messages.create(_data)
-
-	erb :'/pages/success'
+  erb :'/pages/success'
 end
 
 # - READ MESSAGE by:link -
 get '/message/:link' do
-	@message = Messages.find_by_link("#{params[:link]}")
-
-	if @message != nil
-		if @message.delete_type == 0 && @message.count != 0			
-			@message.update(:count => @message.count - 1)
-			erb :'pages/message'						
-		elsif Time.now.to_i - @message.time.to_i <= 3600*@message.count
-			erb :'pages/message'
-		else
-			@result = false
-			@message.delete
-			erb :'pages/message'
-		end	
-	else
-		@result = false
-		erb :'pages/message'
-	end
+  message = Messages.find_by_link("#{params[:link]}")
+  @result = CheckRecord.new(message).result
+  erb :'pages/message'
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
