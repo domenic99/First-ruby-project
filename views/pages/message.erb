@@ -1,9 +1,9 @@
 <div class="row">
-	<% if @result == false %>
+	<% if @result == nil %>
 		<h3 class="col-xs-12 text-xs-center">Something went wrong. Please, try again!</h1>
 		<a href="/">Back!</a>		
 	<% else %>
-		<h3 class="col-xs-12"> Here is your decrypted message: <%= AESCrypt.decrypt(@message.message, "p4ssw0rd") %></h3>
+		<h3 class="col-xs-12"> Here is your decrypted message: <%= @result %></h3>
 		<a href="/">Back!</a>
 	<% end %>
 </div>
