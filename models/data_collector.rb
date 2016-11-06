@@ -4,11 +4,21 @@ class CustomDataCollector
   end
 end
 
-class CollectToDB<CustomDataCollector
+class CollectToDB < CustomDataCollector
   attr_reader :data
   def initialize(data)
     super
-    @data['message'] = AESCrypt.encrypt(@data['message'], "p4ssw0rd")
-    @data['link'] = LinkGenerator.new.generate
+    @data['message'] = encrypt
+    @data['link'] = generate_link
   end
+
+  private
+
+  def encrypt
+    AESCrypt.encrypt(@data['message'], "p4ssw0rd")
+  end
+
+  def generate_link
+    LinkGenerator.new.generate
+  end	
 end

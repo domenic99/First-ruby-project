@@ -1,6 +1,7 @@
 # ** Config **
 require 'bundler'
 require 'date'
+require 'securerandom'
 Bundler.require()
 
 
@@ -23,8 +24,8 @@ end
 
 # - ADD TO DB -
 post '/' do
-  collection = CollectToDB.new(params[:msg]).data
-  Messages.create(collection)
+  @collection = CollectToDB.new(params[:msg]).data
+  Messages.create(@collection)
 
   erb :'/pages/success'
 end

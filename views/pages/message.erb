@@ -1,10 +1,10 @@
 <div class="row">
-	<% if @result == nil %>
-		<h3 class="col-xs-12 text-xs-center">Something went wrong. Please, try again!</h1>
+	<% if @result %>
+		<h3 class="col-xs-12"> Here is your decrypted message: <%= @result %></h3>
 		<a href="/">Back!</a>		
 	<% else %>
-		<h3 class="col-xs-12"> Here is your decrypted message: <%= @result %></h3>
-		<a href="/">Back!</a>
+		<h3 class="col-xs-12 text-xs-center">Something went wrong. Please, try again!</h1>
+		<a href="/">Back!</a>			
 	<% end %>
 </div>
 
